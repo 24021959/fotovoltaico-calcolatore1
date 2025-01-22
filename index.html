@@ -1,71 +1,96 @@
-# Updating the HTML file to fix the footer, add environmental savings, and include more explanatory text
-
-updated_page_with_environmental_savings = """
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Risparmio Energetico Fotovoltaico</title>
+    <!-- Caricamento Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Sfondo scuro generale */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f4f4;
+            background: #1c1c1c; /* Sfondo scuro del body */
+            color: #fff;         /* Testo in bianco */
             line-height: 1.6;
         }
+
+        /* Container principale su sfondo leggermente più chiaro per contrasto */
         .container {
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: #fff;
+            background: #2c2c2c; /* Sfondo del container */
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
+
         h2, h3 {
-            color: #2c3e50;
+            color: #ffffff;
         }
+
         p {
             margin: 10px 0;
-            color: #34495e;
+            color: #ffffff;
         }
-        input, select, button {
+
+        /* Campi di input bianchi in evidenza */
+        input, select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
+            background: #fff;   /* Sfondo bianco */
+            color: #000;        /* Testo nero */
         }
+
+        /* Stile del pulsante */
         button {
-            background: #2c3e50;
-            color: #fff;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #5a5a5a; /* Sfondo bottone grigio scuro */
+            color: #fff;         /* Testo bottone in bianco */
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
-            background: #34495e;
+            background: #757575;
         }
+
         .graph-container {
             margin-top: 20px;
         }
+
         canvas {
+            display: block;
             margin: 0 auto;
+            background: #fff; /* sfondo chiaro per il grafico (opzionale) */
         }
+
+        /* Box in fondo con testo completamente bianco */
         .call-to-action {
             text-align: center;
             padding: 20px;
-            background: #2c3e50;
-            color: #fff;
+            background: #2c3e50; /* Sfondo scuro */
+            color: #ffffff;      /* Testo bianco */
             border-radius: 8px;
             margin-top: 30px;
         }
+
+        /* Link in call-to-action in bianco */
         .call-to-action a {
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* Footer scuro con testo bianco */
         footer {
             text-align: center;
             padding: 15px;
@@ -73,6 +98,7 @@ updated_page_with_environmental_savings = """
             color: #fff;
             font-size: 14px;
         }
+
         footer p {
             margin: 0;
         }
@@ -127,10 +153,11 @@ updated_page_with_environmental_savings = """
             <canvas id="savingsChart" width="400" height="200"></canvas>
         </div>
 
+        <!-- Box in fondo con testo completamente bianco -->
         <div class="call-to-action">
             <h3>Vuoi saperne di più?</h3>
             <p>Contattaci per una consulenza personalizzata. Insieme possiamo valutare il miglior impianto fotovoltaico per le tue esigenze.</p>
-            <a href="mailto:info@greenideaenergia.it">Scrivici subito</a> o chiamaci al <strong>+39 3335323035</strong>.
+            <p>Scrivici subito o chiamaci al <strong>+39 123 456 7890</strong>.</p>
         </div>
     </div>
 
@@ -153,14 +180,22 @@ updated_page_with_environmental_savings = """
                 return;
             }
 
+            // Calcolo potenza installabile
             const installablePower = Math.floor((roofArea / 100) * 12); // 12 kWp per 100 m²
+            // Produzione annua stimata
             const annualProduction = Math.floor(installablePower * regionFactor);
+            // Autoconsumo
             const autoconsumption = Math.floor(annualProduction * efficiency);
+            // Risparmio annuo
             const annualSavings = Math.floor(autoconsumption * energyCost);
+            // Costo impianto
             const systemCostPerKW = installablePower < 50 ? 2000 : installablePower < 1000 ? 1200 : 800;
             const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
+            // Ritorno sull'investimento
             const roi = Math.floor(totalSystemCost / annualSavings);
+            // Risparmio totale su X anni
             const totalSavings = Math.floor(annualSavings * investmentDuration);
+            // Emissioni CO2 evitate
             const co2Savings = Math.floor(annualProduction * 0.4); // 0.4 kg CO2 per kWh
 
             document.getElementById('installablePower').textContent = installablePower;
@@ -178,7 +213,11 @@ updated_page_with_environmental_savings = """
         function updateChart(annualSavings, duration) {
             const ctx = document.getElementById('savingsChart').getContext('2d');
             const yearlySavings = Array.from({ length: duration }, (_, i) => annualSavings * (i + 1));
-            if (window.savingsChart) window.savingsChart.destroy();
+
+            // Distrugge il grafico precedente se esiste (per aggiornare correttamente)
+            if (window.savingsChart) {
+                window.savingsChart.destroy();
+            }
 
             window.savingsChart = new Chart(ctx, {
                 type: 'line',
@@ -207,11 +246,4 @@ updated_page_with_environmental_savings = """
     </script>
 </body>
 </html>
-"""
 
-# Save the updated file to the appropriate path
-file_path = "/mnt/data/Improved_Fotovoltaico_Page.html"
-with open(file_path, "w") as file:
-    file.write(updated_page_with_environmental_savings)
-
-file_path
