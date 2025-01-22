@@ -22,25 +22,22 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
-    h2 {
+    h2, h3 {
       text-align: left;
-      margin-left: 5%;
       color: #ffffff;
+      margin: 20px 0;
     }
     p {
-      margin: 10px 5%;
-      color: #ffffff;
-    }
-    .calculator h3, .results h3, .call-to-action h3 {
-      margin-left: 5%;
+      margin: 10px 0;
       color: #ffffff;
     }
     /* Campi di input e selezione uniformi */
     input, select {
-      width: 90%; /* Uniforma la larghezza */
-      max-width: 500px; /* Limita la larghezza massima */
+      width: calc(100% - 40px); /* Uniforma la larghezza */
+      max-width: 600px; /* Limita la larghezza su desktop */
       padding: 10px;
-      margin: 10px 5%; /* Allinea ai margini */
+      margin: 10px auto; /* Margini uniformi */
+      display: block;
       border: 1px solid #ddd;
       border-radius: 5px;
       background: #fff;
@@ -48,8 +45,8 @@
     }
     button {
       display: block;
-      width: 90%; /* Uniforma con gli input */
-      max-width: 500px; /* Limita la larghezza massima */
+      width: calc(100% - 40px); /* Uniforma con gli input */
+      max-width: 600px; /* Limita la larghezza su desktop */
       padding: 10px;
       margin: 20px auto;
       background: #2c3e50;
@@ -62,7 +59,9 @@
       background: #3c4e60;
     }
     .results {
-      margin: 20px 5%;
+      margin: 20px auto;
+      max-width: 600px; /* Limita la larghezza su desktop */
+      text-align: left;
     }
     .results p {
       margin: 5px 0;
@@ -73,10 +72,8 @@
       background: #2c3e50;
       color: #ffffff;
       border-radius: 8px;
-      margin-top: 30px;
-      margin-left: 5%;
-      width: 90%; /* Uniforma con gli input */
-      max-width: 500px; /* Limita la larghezza massima */
+      margin: 30px auto;
+      max-width: 600px; /* Limita la larghezza su desktop */
     }
     .call-to-action a {
       color: #00ff00; /* Evidenziazione verde per il link */
@@ -95,6 +92,20 @@
     .highlight {
       color: #00ff00;
       font-weight: bold;
+    }
+
+    /* Media Query per schermi più grandi */
+    @media (min-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      h2, h3 {
+        margin-left: 10%;
+      }
+      input, select, button, .results, .call-to-action {
+        margin-left: 10%;
+        width: 80%; /* Più ampio su desktop */
+      }
     }
   </style>
 </head>
