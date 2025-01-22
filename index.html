@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calcolatore Risparmio Fotovoltaico</title>
   <style>
-    /* Sfondo principale */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -15,12 +14,12 @@
       line-height: 1.6;
     }
     .header {
-      background: #fff; /* Sfondo bianco per il logo */
+      background: #fff;
       text-align: center;
       padding: 20px 0;
     }
     .header img {
-      max-width: 200px; /* Dimensione del logo */
+      max-width: 200px;
       height: auto;
     }
     .container {
@@ -33,7 +32,7 @@
     }
     h2, h3, p, label {
       text-align: left;
-      margin-left: 5%; /* Allineamento a sinistra */
+      margin-left: 5%;
       color: #ffffff;
     }
     h2, h3 {
@@ -48,7 +47,7 @@
       border-radius: 10px;
     }
     input, select {
-      width: 80%; /* Uniforma la larghezza */
+      width: 80%;
       max-width: 600px;
       padding: 10px;
       margin: 10px 5%;
@@ -136,13 +135,46 @@
     </div>
 
     <script>
-      // Rimuove il mute e forza l'audio al caricamento della pagina
       const video = document.getElementById('videoPlayer');
       video.addEventListener('loadeddata', () => {
-        video.muted = false; // Rimuove il mute
-        video.play(); // Avvia il video
+        video.muted = false;
+        video.play();
       });
     </script>
+
+    <!-- Calcolatore -->
+    <div class="calculator">
+      <h3>Inserisci i tuoi dati</h3>
+      <label for="annualConsumption">Consumo annuale (kWh):</label>
+      <input type="number" id="annualConsumption" placeholder="Inserisci il consumo annuale"/>
+      <label for="annualCost">Spesa annuale (€):</label>
+      <input type="number" id="annualCost" placeholder="Inserisci la spesa annuale"/>
+      <label for="region">Area geografica:</label>
+      <select id="region">
+        <option value="1000">Nord</option>
+        <option value="1200">Centro</option>
+        <option value="1400">Sud</option>
+      </select>
+      <label for="roofArea">Superficie del tetto (m²):</label>
+      <input type="number" id="roofArea" placeholder="Inserisci la superficie disponibile"/>
+      <label for="energyCost">Costo dell'energia (€ per kWh):</label>
+      <input type="number" id="energyCost" value="0.25" step="0.01"/>
+      <button onclick="calculate()">Calcola Risparmio</button>
+    </div>
+
+    <div class="results">
+      <h3>Risultati:</h3>
+      <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
+      <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
+      <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
+      <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
+      <p>Resa annua sull'investimento: <span id="annualYield">0</span>%</p>
+      <p>Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
+      <p>Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
+      <h3>Risparmio ambientale:</h3>
+      <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span></p>
+      <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
+    </div>
 
     <!-- Call-to-action -->
     <div class="call-to-action">
@@ -160,7 +192,38 @@
   <footer>
     <p>Calcolatore Fotovoltaico - Tutti i diritti riservati Greenidea © 2025</p>
   </footer>
+
+  <script>
+    function calculate() {
+      const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
+      const annualCost = parseFloat(document.getElementById('annualCost').value);
+      const regionFactor = parseFloat(document.getElementById('region').value);
+      const roofArea = parseFloat(document.getElementById('roofArea').value);
+      const energyCost = parseFloat(document.getElementById('energyCost').value);
+      if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea) || isNaN(energyCost)) {
+        alert("Compila tutti i campi obbligatori!");
+        return;
+      }
+      const efficiency = 0.95;
+      const installablePower = Math.floor((roofArea / 100) * 12);
+      const annualProduction = Math.floor(installablePower * regionFactor);
+      const autoconsumption = Math.floor(annualProduction * efficiency);
+      const annualSavings = Math.floor(autoconsumption * energyCost);
+      const systemCostPerKW = installablePower < 50 ? 2000 : installablePower < 1000 ? 1200 : 800;
+      const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
+      const annualYield = totalSystemCost > 0 ? (annualSavings / totalSystemCost) * 100 : 0;
+      const totalSavings10 = annualSavings * 10;
+      const totalSavings25 = annualSavings * 25;
+      document.getElementById('installablePower').textContent = installablePower;
+      document.getElementById('annualProduction').textContent = annualProduction;
+      document.getElementById('annualSavings').textContent = `${annualSavings} €`;
+      document.getElementById('totalSystemCost').textContent = `${totalSystemCost} €`;
+      document.getElementById('annualYield').textContent = `${annualYield.toFixed(2)} %`;
+      document.getElementById('totalSavings10').textContent = `${totalSavings10} €`;
+      document.getElementById('totalSavings25').textContent = `${totalSavings25} €`;
+      document.getElementById('co2Savings').textContent = `${Math.floor(annualProduction * 0.4)} kg`;
+      document.getElementById('environmentalBenefit').textContent = `${Math.floor((annualProduction * 0.4) / 21)}`;
+    }
+  </script>
 </body>
 </html>
-
-
