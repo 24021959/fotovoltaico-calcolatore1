@@ -186,13 +186,13 @@
 
       document.getElementById('installablePower').textContent = formatNumber(installablePower);
       document.getElementById('annualProduction').textContent = formatNumber(annualProduction);
-      document.getElementById('annualSavings').textContent = formatNumber(annualSavings);
-      document.getElementById('co2Savings').textContent = formatNumber(co2Savings);
-      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost);
-      document.getElementById('roi').textContent = roi;
-      document.getElementById('totalYears').textContent = investmentDuration;
-      document.getElementById('totalSavings').textContent = formatNumber(totalSavings);
-      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit);
+      document.getElementById('annualSavings').textContent = formatNumber(annualSavings) + " €";
+      document.getElementById('co2Savings').textContent = formatNumber(co2Savings) + " kg";
+      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost) + " €";
+      document.getElementById('roi').textContent = roi + " anni";
+      document.getElementById('totalYears').textContent = investmentDuration + " anni";
+      document.getElementById('totalSavings').textContent = formatNumber(totalSavings) + " €";
+      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit) + " alberi equivalenti piantati";
     }
   </script>
 </body>
