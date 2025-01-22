@@ -14,6 +14,15 @@
       color: #fff;
       line-height: 1.6;
     }
+    .header {
+      background: #fff; /* Sfondo bianco per il logo */
+      text-align: center;
+      padding: 20px 0;
+    }
+    .header img {
+      max-width: 200px; /* Dimensione del logo */
+      height: auto;
+    }
     .container {
       max-width: 800px;
       margin: 20px auto;
@@ -59,7 +68,7 @@
     }
     .results {
       margin: 20px auto;
-      width: 90%; /* Aumentata al 90% */
+      width: 90%;
       max-width: 800px;
       text-align: left;
     }
@@ -94,23 +103,15 @@
       color: #00ff00;
       font-weight: bold;
     }
-
-    /* Media Query per schermi più grandi */
-    @media (min-width: 768px) {
-      .container {
-        padding: 30px;
-      }
-      h2, h3, p, label {
-        margin-left: 5%; /* Allineato a sinistra */
-      }
-      input, select, button, .results, .call-to-action {
-        margin-left: 5%;
-        width: 90%;
-      }
-    }
   </style>
 </head>
 <body>
+  <!-- Sezione Logo -->
+  <div class="header">
+    <img src="logo-greenidea1.png" alt="Green Idea Logo">
+  </div>
+
+  <!-- Contenuto principale -->
   <div class="container">
     <h2>Scopri il Risparmio del Tuo Impianto Fotovoltaico</h2>
     <p>
@@ -160,7 +161,7 @@
       <p>Costo totale impianto: <span id="totalSystemCost">0</span> €</p>
       <p>Ritorno sull’investimento: <span id="roi">0</span> anni</p>
       <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
-      <p><span id="environmentalBenefit">Alberi equivalenti piantati: 0</span></p>
+      <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
     </div>
 
     <div class="call-to-action">
@@ -223,7 +224,7 @@
       document.getElementById('roi').textContent = roi + " anni";
       document.getElementById('totalYears').textContent = investmentDuration + " anni";
       document.getElementById('totalSavings').textContent = formatNumber(totalSavings) + " €";
-      document.getElementById('environmentalBenefit').textContent = `Alberi equivalenti piantati: ${formatNumber(environmentalBenefit)}`;
+      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit);
     }
   </script>
 </body>
