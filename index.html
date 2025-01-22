@@ -146,14 +146,8 @@
       <label for="roofArea">Superficie del tetto (m²):</label>
       <input type="number" id="roofArea" placeholder="Inserisci la superficie disponibile"/>
 
-      <label for="efficiency">Efficienza dell’impianto (%):</label>
-      <input type="number" id="efficiency" value="80"/>
-
-      <label for="energyCost">Costo dell'energia (€ per kWh):</label>
-      <input type="number" id="energyCost" value="0.25" step="0.01"/>
-
-      <label for="investmentDuration">Durata dell’investimento (anni):</label>
-      <input type="number" id="investmentDuration" value="25"/>
+      <!-- Campo rimosso: Efficienza dell'impianto (fissata al 95%) -->
+      <!-- Campo rimosso: Durata dell’investimento -->
 
       <button onclick="calculate()">Calcola Risparmio</button>
     </div>
@@ -164,8 +158,9 @@
       <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
       <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
       <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
-      <p>Ritorno sull’investimento: <span id="roi">0</span></p>
-      <p>Risparmio totale in <span id="totalYears">0</span>: <span id="totalSavings">0</span></p>
+      <p>Resa annua sull'investimento: <span id="annualYield">0</span>%</p>
+      <p>Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
+      <p>Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
       <h3>Risparmio ambientale:</h3>
       <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span></p>
       <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
@@ -189,24 +184,30 @@
 
   <script>
     function calculate() {
+      // Lettura dei valori di input
       const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
       const annualCost = parseFloat(document.getElementById('annualCost').value);
       const regionFactor = parseFloat(document.getElementById('region').value);
       const roofArea = parseFloat(document.getElementById('roofArea').value);
-      const efficiency = parseFloat(document.getElementById('efficiency').value) / 100;
-      const energyCost = parseFloat(document.getElementById('energyCost').value);
-      const investmentDuration = parseFloat(document.getElementById('investmentDuration').value);
 
+      // Verifica che i campi obbligatori siano compilati
       if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea)) {
         alert("Compila almeno Consumo annuale, Spesa annuale e Superficie tetto!");
         return;
       }
 
+      // Valori fissi
+      const efficiency = 0.95; // Efficienza al 95%
+
+      // Calcoli base
       const installablePower = Math.floor((roofArea / 100) * 12);
       const annualProduction = Math.floor(installablePower * regionFactor);
       const autoconsumption = Math.floor(annualProduction * efficiency);
-      const annualSavings = Math.floor(autoconsumption * energyCost);
+      const annualSavings = Math.floor(autoconsumption * parseFloat(annualCost / annualConsumption)); 
+      // In questo esempio, il risparmio annuo viene calcolato in funzione del risparmio percentuale applicato al consumo energetico;
+      // puoi modificare la formula se necessario.
 
+      // Calcolo del costo totale dell'impianto
       let systemCostPerKW;
       if (installablePower < 50) {
         systemCostPerKW = 2000;
@@ -216,27 +217,31 @@
         systemCostPerKW = 800;
       }
       const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
-      const roi = annualSavings > 0 ? Math.floor(totalSystemCost / annualSavings) : 0;
-      const totalSavings = annualSavings * investmentDuration;
-      const co2Savings = Math.floor(annualProduction * 0.4);
-      const environmentalBenefit = Math.floor(co2Savings / 21);
 
+      // Calcolo della resa annua sull'investimento (in percentuale)
+      const annualYield = totalSystemCost > 0 ? (annualSavings / totalSystemCost) * 100 : 0;
+
+      // Risparmio totale fissato per due durate: 10 anni e 25 anni
+      const totalSavings10 = annualSavings * 10;
+      const totalSavings25 = annualSavings * 25;
+
+      // Funzione per la formattazione dei numeri
       const formatNumber = (num, isCurrency = false) => {
         const formatted = new Intl.NumberFormat('it-IT').format(num);
         return isCurrency ? formatted + " €" : formatted;
       };
 
+      // Assegnazione dei risultati agli elementi HTML
       document.getElementById('installablePower').textContent = formatNumber(installablePower);
       document.getElementById('annualProduction').textContent = formatNumber(annualProduction);
       document.getElementById('annualSavings').textContent = formatNumber(annualSavings, true);
-      document.getElementById('co2Savings').textContent = formatNumber(co2Savings) + " kg";
       document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost, true);
-      document.getElementById('roi').textContent = roi + " anni";
-      document.getElementById('totalYears').textContent = investmentDuration + " anni";
-      document.getElementById('totalSavings').textContent = formatNumber(totalSavings, true);
-      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit);
+      document.getElementById('annualYield').textContent = formatNumber(annualYield) + " %";
+      document.getElementById('totalSavings10').textContent = formatNumber(totalSavings10, true);
+      document.getElementById('totalSavings25').textContent = formatNumber(totalSavings25, true);
+      document.getElementById('co2Savings').textContent = formatNumber(Math.floor(annualProduction * 0.4)) + " kg";
+      document.getElementById('environmentalBenefit').textContent = formatNumber(Math.floor((annualProduction * 0.4) / 21));
     }
   </script>
 </body>
 </html>
-
