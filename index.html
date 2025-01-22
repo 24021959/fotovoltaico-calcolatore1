@@ -50,6 +50,7 @@
       border-radius: 5px;
       background: #fff;
       color: #000;
+      font-size: 16px; /* Aumenta il font dei valori inseriti */
     }
     button {
       display: block;
@@ -62,7 +63,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px; /* Aumenta il font del bottone */
+      font-size: 16px; /* Font-size per il testo del bottone */
     }
     button:hover {
       background: #3c4e60;
@@ -73,8 +74,12 @@
       max-width: 800px;
       text-align: left;
     }
+    /* Rimuovo il margine sinistro per l'intestazione dei risultati */
+    .results h3 {
+      margin-left: 0;
+    }
     .results p {
-      margin: 5px 0; /* Rimosso il margine sinistro per allineare il testo a sinistra */
+      margin: 5px 0; /* Allinea i risultati a sinistra */
     }
     .call-to-action {
       text-align: left;
@@ -233,3 +238,4 @@
   </script>
 </body>
 </html>
+
