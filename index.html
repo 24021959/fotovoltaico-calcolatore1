@@ -1,3 +1,6 @@
+# Updating the HTML file to fix the footer, add environmental savings, and include more explanatory text
+
+updated_page_with_environmental_savings = """
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -63,12 +66,22 @@
             text-decoration: none;
             font-weight: bold;
         }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #2c3e50;
+            color: #fff;
+            font-size: 14px;
+        }
+        footer p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Calcola il Risparmio Energetico del Tuo Impianto Fotovoltaico</h2>
-        <p>Scopri quanto puoi risparmiare installando un impianto fotovoltaico. Usa il nostro calcolatore per stimare il tuo risparmio economico e ambientale. </p>
+        <p>Scopri quanto puoi risparmiare installando un impianto fotovoltaico. Usa il nostro calcolatore per stimare il tuo risparmio economico, ambientale e il ritorno sull'investimento.</p>
 
         <div class="calculator">
             <h3>Inserisci i tuoi dati</h3>
@@ -103,13 +116,14 @@
             <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
             <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
             <p>Risparmio economico annuo: <span id="annualSavings">0</span> €</p>
+            <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span> kg</p>
             <p>Costo totale impianto: <span id="totalSystemCost">0</span> €</p>
             <p>Ritorno sull’investimento: <span id="roi">0</span> anni</p>
             <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
         </div>
 
         <div class="graph-container">
-            <h3>Grafico del Risparmio e ROI</h3>
+            <h3>Grafico del Risparmio Cumulativo e ROI</h3>
             <canvas id="savingsChart" width="400" height="200"></canvas>
         </div>
 
@@ -119,6 +133,10 @@
             <a href="mailto:info@tuaazienda.com">Scrivici subito</a> o chiamaci al <strong>+39 123 456 7890</strong>.
         </div>
     </div>
+
+    <footer>
+        <p>Calcolatore Fotovoltaico - Tutti i diritti riservati © 2025</p>
+    </footer>
 
     <script>
         function calculate() {
@@ -143,10 +161,12 @@
             const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
             const roi = Math.floor(totalSystemCost / annualSavings);
             const totalSavings = Math.floor(annualSavings * investmentDuration);
+            const co2Savings = Math.floor(annualProduction * 0.4); // 0.4 kg CO2 per kWh
 
             document.getElementById('installablePower').textContent = installablePower;
             document.getElementById('annualProduction').textContent = annualProduction;
             document.getElementById('annualSavings').textContent = annualSavings;
+            document.getElementById('co2Savings').textContent = co2Savings;
             document.getElementById('totalSystemCost').textContent = totalSystemCost;
             document.getElementById('roi').textContent = roi;
             document.getElementById('totalYears').textContent = investmentDuration;
@@ -187,3 +207,11 @@
     </script>
 </body>
 </html>
+"""
+
+# Save the updated file to the appropriate path
+file_path = "/mnt/data/Improved_Fotovoltaico_Page.html"
+with open(file_path, "w") as file:
+    file.write(updated_page_with_environmental_savings)
+
+file_path
