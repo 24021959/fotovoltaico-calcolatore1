@@ -22,21 +22,20 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
-    h2, h3 {
+    h2, h3, p, label {
       text-align: left;
-      margin-left: 5%;
+      margin-left: 5%; /* Allineamento a sinistra */
       color: #ffffff;
     }
-    p {
-      margin: 10px 5%;
-      color: #ffffff;
+    h2, h3 {
+      margin-bottom: 20px;
     }
     /* Campi di input e selezione uniformi */
     input, select {
-      width: calc(100% - 40px); /* Uniforma la larghezza */
-      max-width: 600px; /* Limita la larghezza su desktop */
+      width: 90%; /* Uniforma la larghezza */
+      max-width: 600px;
       padding: 10px;
-      margin: 10px auto; /* Margini uniformi */
+      margin: 10px 5%;
       display: block;
       border: 1px solid #ddd;
       border-radius: 5px;
@@ -45,10 +44,10 @@
     }
     button {
       display: block;
-      width: calc(100% - 40px); /* Uniforma con gli input */
-      max-width: 600px; /* Limita la larghezza su desktop */
+      width: 90%;
+      max-width: 600px;
       padding: 10px;
-      margin: 20px auto;
+      margin: 20px 5%;
       background: #2c3e50;
       color: #fff;
       border: none;
@@ -61,11 +60,11 @@
     .results {
       margin: 20px auto;
       width: 90%; /* Aumentata al 90% */
-      max-width: 800px; /* Limita la larghezza su desktop */
+      max-width: 800px;
       text-align: left;
     }
     .results p {
-      margin: 5px 0;
+      margin: 5px 0 5px 5%;
     }
     .call-to-action {
       text-align: left;
@@ -74,11 +73,11 @@
       color: #ffffff;
       border-radius: 8px;
       margin: 30px auto;
-      width: 90%; /* Aumentata al 90% */
-      max-width: 800px; /* Limita la larghezza su desktop */
+      width: 90%;
+      max-width: 800px;
     }
     .call-to-action a {
-      color: #00ff00; /* Evidenziazione verde per il link */
+      color: #00ff00;
       text-decoration: none;
       font-weight: bold;
     }
@@ -94,6 +93,20 @@
     .highlight {
       color: #00ff00;
       font-weight: bold;
+    }
+
+    /* Media Query per schermi più grandi */
+    @media (min-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      h2, h3, p, label {
+        margin-left: 5%; /* Allineato a sinistra */
+      }
+      input, select, button, .results, .call-to-action {
+        margin-left: 5%;
+        width: 90%;
+      }
     }
   </style>
 </head>
