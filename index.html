@@ -198,6 +198,14 @@
   </footer>
 
   <script>
+    // Funzione per formattare i numeri in stile italiano (senza decimali)
+    function formatNumber(num) {
+      return new Intl.NumberFormat('it-IT', {
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0
+      }).format(num);
+    }
+
     function calculate() {
       // Recupera i valori inseriti dall'utente
       let annualConsumption = parseFloat(document.getElementById("annualConsumption").value);
@@ -212,41 +220,41 @@
         return;
       }
 
-      // Calcoli: le formule qui proposte sono di esempio e possono essere adattate
+      // Calcoli (formule di esempio; adattale alle tue esigenze)
       // 1. Potenza installabile: ipotizziamo 0.15 kWp per m² di tetto disponibile
-      let installablePower = roofArea * 0.15; // in kWp
+      let installablePower = roofArea * 0.15; // kWp
 
       // 2. Produzione annua stimata: uso un fattore per area geografica (kWh/kWp)
-      let annualProduction = installablePower * regionFactor; // in kWh
+      let annualProduction = installablePower * regionFactor; // kWh
 
       // 3. Risparmio economico annuo: produzione * costo dell'energia
-      let annualSavings = annualProduction * energyCost; // in €
+      let annualSavings = annualProduction * energyCost; // €
 
       // 4. Costo totale impianto: ipotizziamo 1500 € per kWp installato
-      let totalSystemCost = installablePower * 1500; // in €
+      let totalSystemCost = installablePower * 1500; // €
 
       // 5. Resa annua sull'investimento (yield): rapporto tra risparmio annuo e costo totale
-      let annualYield = (annualSavings / totalSystemCost) * 100; // in percentuale
+      let annualYield = (annualSavings / totalSystemCost) * 100; // percentuale
 
       // 6. Risparmio totale in 10 e 25 anni
       let totalSavings10 = annualSavings * 10;
       let totalSavings25 = annualSavings * 25;
 
-      // 7. Risparmio ambientale: ipotizziamo 0.5 kg di CO₂ evitati per ogni kWh prodotto
-      let co2Savings = annualProduction * 0.5; // in kg di CO₂
+      // 7. Risparmio ambientale: ipotizziamo 0.5 kg di CO₂ evitate per ogni kWh prodotto
+      let co2Savings = annualProduction * 0.5; // kg di CO₂
       // Equivalenza: 1 albero assorbe circa 20 kg di CO₂ all'anno
       let environmentalBenefit = co2Savings / 20;
 
-      // Aggiorna i risultati nell'HTML
-      document.getElementById("installablePower").innerText = installablePower.toFixed(2);
-      document.getElementById("annualProduction").innerText = annualProduction.toFixed(0);
-      document.getElementById("annualSavings").innerText = annualSavings.toFixed(2) + " €";
-      document.getElementById("totalSystemCost").innerText = totalSystemCost.toFixed(2) + " €";
-      document.getElementById("annualYield").innerText = annualYield.toFixed(2) + " %";
-      document.getElementById("totalSavings10").innerText = totalSavings10.toFixed(2) + " €";
-      document.getElementById("totalSavings25").innerText = totalSavings25.toFixed(2) + " €";
-      document.getElementById("co2Savings").innerText = co2Savings.toFixed(0) + " kg";
-      document.getElementById("environmentalBenefit").innerText = environmentalBenefit.toFixed(0);
+      // Aggiorna i risultati nell'HTML utilizzando la funzione formatNumber per formattare i numeri
+      document.getElementById("installablePower").innerText = formatNumber(installablePower) + " kWp";
+      document.getElementById("annualProduction").innerText = formatNumber(annualProduction) + " kWh";
+      document.getElementById("annualSavings").innerText = formatNumber(annualSavings) + " €";
+      document.getElementById("totalSystemCost").innerText = formatNumber(totalSystemCost) + " €";
+      document.getElementById("annualYield").innerText = formatNumber(annualYield) + " %";
+      document.getElementById("totalSavings10").innerText = formatNumber(totalSavings10) + " €";
+      document.getElementById("totalSavings25").innerText = formatNumber(totalSavings25) + " €";
+      document.getElementById("co2Savings").innerText = formatNumber(co2Savings) + " kg";
+      document.getElementById("environmentalBenefit").innerText = formatNumber(environmentalBenefit);
     }
   </script>
 </body>
