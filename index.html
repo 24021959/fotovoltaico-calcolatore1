@@ -24,18 +24,10 @@
     }
     h2, h3 {
       color: #ffffff;
-      margin-left: 5%; /* Allineato al margine degli input */
     }
     p {
       margin: 10px 0;
       color: #ffffff;
-      margin-left: 5%; /* Allineato al margine degli input */
-    }
-    .calculator {
-      margin-left: 5%; /* Allineato al margine degli input */
-    }
-    .results {
-      margin-left: 5%; /* Allineato al margine degli input */
     }
     /* Campi di input e selezione uniformi */
     input, select {
@@ -70,9 +62,6 @@
       color: #ffffff;
       border-radius: 8px;
       margin-top: 30px;
-      margin-left: 5%; /* Allineato al margine degli input */
-      width: 90%; /* Uniforma con gli input */
-      max-width: 500px; /* Limita la larghezza massima */
     }
     .call-to-action a {
       color: #00ff00; /* Evidenziazione verde per il link */
@@ -133,9 +122,7 @@
       <input type="number" id="investmentDuration" value="25"/>
 
       <button onclick="calculate()">Calcola Risparmio</button>
-    </div>
 
-    <div class="results">
       <h3>Risultati:</h3>
       <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
       <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
@@ -162,5 +149,53 @@
   <footer>
     <p>Calcolatore Fotovoltaico - Tutti i diritti riservati Greenidea © 2025</p>
   </footer>
+
+  <script>
+    function calculate() {
+      const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
+      const annualCost = parseFloat(document.getElementById('annualCost').value);
+      const regionFactor = parseFloat(document.getElementById('region').value);
+      const roofArea = parseFloat(document.getElementById('roofArea').value);
+      const efficiency = parseFloat(document.getElementById('efficiency').value) / 100;
+      const energyCost = parseFloat(document.getElementById('energyCost').value);
+      const investmentDuration = parseFloat(document.getElementById('investmentDuration').value);
+
+      if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea)) {
+        alert("Compila almeno Consumo annuale, Spesa annuale e Superficie tetto!");
+        return;
+      }
+
+      const installablePower = Math.floor((roofArea / 100) * 12);
+      const annualProduction = Math.floor(installablePower * regionFactor);
+      const autoconsumption = Math.floor(annualProduction * efficiency);
+      const annualSavings = Math.floor(autoconsumption * energyCost);
+
+      let systemCostPerKW;
+      if (installablePower < 50) {
+        systemCostPerKW = 2000;
+      } else if (installablePower < 1000) {
+        systemCostPerKW = 1200;
+      } else {
+        systemCostPerKW = 800;
+      }
+      const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
+      const roi = annualSavings > 0 ? Math.floor(totalSystemCost / annualSavings) : 0;
+      const totalSavings = annualSavings * investmentDuration;
+      const co2Savings = Math.floor(annualProduction * 0.4);
+      const environmentalBenefit = Math.floor(co2Savings / 21);
+
+      const formatNumber = (num) => new Intl.NumberFormat('it-IT').format(num);
+
+      document.getElementById('installablePower').textContent = formatNumber(installablePower);
+      document.getElementById('annualProduction').textContent = formatNumber(annualProduction);
+      document.getElementById('annualSavings').textContent = formatNumber(annualSavings) + " €";
+      document.getElementById('co2Savings').textContent = formatNumber(co2Savings) + " kg";
+      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost) + " €";
+      document.getElementById('roi').textContent = roi + " anni";
+      document.getElementById('totalYears').textContent = investmentDuration + " anni";
+      document.getElementById('totalSavings').textContent = formatNumber(totalSavings) + " €";
+      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit) + " alberi equivalenti piantati";
+    }
+  </script>
 </body>
 </html>
