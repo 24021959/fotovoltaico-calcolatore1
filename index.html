@@ -136,51 +136,13 @@
     </div>
 
     <script>
-      // Forza l'audio del video dopo la prima interazione
+      // Rimuove il mute e forza l'audio al caricamento della pagina
       const video = document.getElementById('videoPlayer');
-      document.addEventListener('click', () => {
-        if (video.muted) {
-          video.muted = false;
-        }
-        if (video.paused) {
-          video.play();
-        }
+      video.addEventListener('loadeddata', () => {
+        video.muted = false; // Rimuove il mute
+        video.play(); // Avvia il video
       });
     </script>
-
-    <!-- Sezione form e calcolatore -->
-    <div class="calculator">
-      <h3>Inserisci i tuoi dati</h3>
-      <label for="annualConsumption">Consumo annuale (kWh):</label>
-      <input type="number" id="annualConsumption" placeholder="Inserisci il consumo annuale"/>
-      <label for="annualCost">Spesa annuale (€):</label>
-      <input type="number" id="annualCost" placeholder="Inserisci la spesa annuale"/>
-      <label for="region">Area geografica:</label>
-      <select id="region">
-        <option value="1000">Nord</option>
-        <option value="1200">Centro</option>
-        <option value="1400">Sud</option>
-      </select>
-      <label for="roofArea">Superficie del tetto (m²):</label>
-      <input type="number" id="roofArea" placeholder="Inserisci la superficie disponibile"/>
-      <label for="energyCost">Costo dell'energia (€ per kWh):</label>
-      <input type="number" id="energyCost" value="0.25" step="0.01"/>
-      <button onclick="calculate()">Calcola Risparmio</button>
-    </div>
-
-    <div class="results">
-      <h3>Risultati:</h3>
-      <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
-      <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
-      <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
-      <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
-      <p>Resa annua in % sull'investimento: <span id="annualYield">0</span></p>
-      <p>Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
-      <p>Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
-      <h3>Risparmio ambientale:</h3>
-      <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span></p>
-      <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
-    </div>
 
     <!-- Call-to-action -->
     <div class="call-to-action">
