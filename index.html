@@ -129,24 +129,24 @@
     
     <!-- Video esplicativo -->
     <div class="video-container">
-  <video autoplay controls id="videoPlayer">
-    <source src="video-calcolatore-greenidea.mp4" type="video/mp4">
-    Il tuo browser non supporta il video.
-  </video>
-</div>
+      <video autoplay muted controls id="videoPlayer">
+        <source src="video-calcolatore-greenidea.mp4" type="video/mp4">
+        Il tuo browser non supporta il video.
+      </video>
+    </div>
 
-<script>
-  // Seleziona il video
-  const video = document.getElementById('videoPlayer');
-
-  // Aggiungi un listener per l'interazione dell'utente
-  document.addEventListener('click', () => {
-    if (video.paused) {
-      video.play();
-    }
-    video.muted = false; // Rimuove il mute dopo l'interazione
-  });
-</script>
+    <script>
+      // Forza l'audio del video dopo la prima interazione
+      const video = document.getElementById('videoPlayer');
+      document.addEventListener('click', () => {
+        if (video.muted) {
+          video.muted = false;
+        }
+        if (video.paused) {
+          video.play();
+        }
+      });
+    </script>
 
     <!-- Sezione form e calcolatore -->
     <div class="calculator">
@@ -174,12 +174,24 @@
       <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
       <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
       <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
-      <p>Resa annua sull'investimento: <span id="annualYield">0</span></p>
+      <p>Resa annua in % sull'investimento: <span id="annualYield">0</span></p>
       <p>Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
       <p>Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
       <h3>Risparmio ambientale:</h3>
       <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span></p>
       <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
+    </div>
+
+    <!-- Call-to-action -->
+    <div class="call-to-action">
+      <h3>Non aspettare! Richiedi la tua consulenza gratuita</h3>
+      <p>
+        Compilando i tuoi dati, puoi ricevere una <span class="highlight">consulenza personalizzata gratuita</span> per scegliere l’impianto fotovoltaico perfetto per le tue esigenze.
+      </p>
+      <p>
+        <a href="mailto:info@greenideaenergia.it">Invia una email a info@greenideaenergia.it</a>
+        o chiamaci al <strong>+39 333 532 3035</strong>.
+      </p>
     </div>
   </div>
 
@@ -188,4 +200,5 @@
   </footer>
 </body>
 </html>
+
 
