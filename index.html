@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risparmio Energetico Fotovoltaico</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            color: #2c3e50;
+        }
+        p {
+            margin: 10px 0;
+            color: #34495e;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        .graph-container {
+            margin-top: 20px;
+        }
+        canvas {
+            margin: 0 auto;
+        }
+        .call-to-action {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: #fff;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .call-to-action a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calcola il Risparmio Energetico del Tuo Impianto Fotovoltaico</h2>
+        <p>Scopri quanto puoi risparmiare installando un impianto fotovoltaico. Usa il nostro calcolatore per stimare il tuo risparmio economico e ambientale. </p>
+
+        <div class="calculator">
+            <h3>Inserisci i tuoi dati</h3>
+            <label for="annualConsumption">Consumo annuale (kWh):</label>
+            <input type="number" id="annualConsumption" placeholder="Inserisci il consumo annuale">
+
+            <label for="annualCost">Spesa annuale (€):</label>
+            <input type="number" id="annualCost" placeholder="Inserisci la spesa annuale">
+
+            <label for="region">Area geografica:</label>
+            <select id="region">
+                <option value="1000">Nord</option>
+                <option value="1200">Centro</option>
+                <option value="1400">Sud</option>
+            </select>
+
+            <label for="roofArea">Superficie del tetto (m²):</label>
+            <input type="number" id="roofArea" placeholder="Inserisci la superficie disponibile">
+
+            <label for="efficiency">Efficienza stimata dell’impianto (%):</label>
+            <input type="number" id="efficiency" value="80" placeholder="Inserisci l'efficienza stimata">
+
+            <label for="energyCost">Costo attuale dell'energia (€ per kWh):</label>
+            <input type="number" id="energyCost" value="0.25" step="0.01">
+
+            <label for="investmentDuration">Durata dell’investimento (anni):</label>
+            <input type="number" id="investmentDuration" value="25">
+
+            <button onclick="calculate()">Calcola Risparmio</button>
+
+            <h3>Risultati:</h3>
+            <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
+            <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
+            <p>Risparmio economico annuo: <span id="annualSavings">0</span> €</p>
+            <p>Costo totale impianto: <span id="totalSystemCost">0</span> €</p>
+            <p>Ritorno sull’investimento: <span id="roi">0</span> anni</p>
+            <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
+        </div>
+
+        <div class="graph-container">
+            <h3>Grafico del Risparmio e ROI</h3>
+            <canvas id="savingsChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="call-to-action">
+            <h3>Vuoi saperne di più?</h3>
+            <p>Contattaci per una consulenza personalizzata. Insieme possiamo valutare il miglior impianto fotovoltaico per le tue esigenze.</p>
+            <a href="mailto:info@tuaazienda.com">Scrivici subito</a> o chiamaci al <strong>+39 123 456 7890</strong>.
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
+            const annualCost = parseFloat(document.getElementById('annualCost').value);
+            const regionFactor = parseFloat(document.getElementById('region').value);
+            const roofArea = parseFloat(document.getElementById('roofArea').value);
+            const efficiency = parseFloat(document.getElementById('efficiency').value) / 100;
+            const energyCost = parseFloat(document.getElementById('energyCost').value);
+            const investmentDuration = parseFloat(document.getElementById('investmentDuration').value);
+
+            if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea)) {
+                alert("Inserisci tutti i dati richiesti!");
+                return;
+            }
+
+            const installablePower = Math.floor((roofArea / 100) * 12); // 12 kWp per 100 m²
+            const annualProduction = Math.floor(installablePower * regionFactor);
+            const autoconsumption = Math.floor(annualProduction * efficiency);
+            const annualSavings = Math.floor(autoconsumption * energyCost);
+            const systemCostPerKW = installablePower < 50 ? 2000 : installablePower < 1000 ? 1200 : 800;
+            const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
+            const roi = Math.floor(totalSystemCost / annualSavings);
+            const totalSavings = Math.floor(annualSavings * investmentDuration);
+
+            document.getElementById('installablePower').textContent = installablePower;
+            document.getElementById('annualProduction').textContent = annualProduction;
+            document.getElementById('annualSavings').textContent = annualSavings;
+            document.getElementById('totalSystemCost').textContent = totalSystemCost;
+            document.getElementById('roi').textContent = roi;
+            document.getElementById('totalYears').textContent = investmentDuration;
+            document.getElementById('totalSavings').textContent = totalSavings;
+
+            updateChart(annualSavings, investmentDuration);
+        }
+
+        function updateChart(annualSavings, duration) {
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            const yearlySavings = Array.from({ length: duration }, (_, i) => annualSavings * (i + 1));
+            if (window.savingsChart) window.savingsChart.destroy();
+
+            window.savingsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: duration }, (_, i) => `Anno ${i + 1}`),
+                    datasets: [{
+                        label: 'Risparmio Cumulativo (€)',
+                        data: yearlySavings,
+                        borderColor: '#2c3e50',
+                        tension: 0.2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Anni' } },
+                        y: { title: { display: true, text: 'Risparmio (€)' } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
