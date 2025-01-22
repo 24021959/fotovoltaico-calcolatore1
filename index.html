@@ -158,25 +158,16 @@
       const energyCost = parseFloat(document.getElementById('energyCost').value);
       const investmentDuration = parseFloat(document.getElementById('investmentDuration').value);
 
-      // Controllo su alcuni valori indispensabili
       if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea)) {
         alert("Compila almeno Consumo annuale, Spesa annuale e Superficie tetto!");
         return;
       }
 
-      // Calcolo potenza installabile
       const installablePower = Math.floor((roofArea / 100) * 12);
-
-      // Produzione annua stimata
       const annualProduction = Math.floor(installablePower * regionFactor);
-
-      // Autoconsumo
       const autoconsumption = Math.floor(annualProduction * efficiency);
-
-      // Risparmio economico annuo
       const annualSavings = Math.floor(autoconsumption * energyCost);
 
-      // Costo impianto
       let systemCostPerKW;
       if (installablePower < 50) {
         systemCostPerKW = 2000;
@@ -186,31 +177,23 @@
         systemCostPerKW = 800;
       }
       const totalSystemCost = Math.floor(installablePower * systemCostPerKW);
-
-      // ROI
       const roi = annualSavings > 0 ? Math.floor(totalSystemCost / annualSavings) : 0;
-
-      // Risparmio totale in X anni
       const totalSavings = annualSavings * investmentDuration;
-
-      // Emissioni di CO₂ evitate
       const co2Savings = Math.floor(annualProduction * 0.4);
-
-      // Beneficio ambientale (esempio: 1 albero assorbe ~21 kg di CO₂ all'anno)
       const environmentalBenefit = Math.floor(co2Savings / 21);
 
-      // Aggiorno i risultati nella pagina
-      document.getElementById('installablePower').textContent = installablePower;
-      document.getElementById('annualProduction').textContent = annualProduction;
-      document.getElementById('annualSavings').textContent = annualSavings;
-      document.getElementById('co2Savings').textContent = co2Savings;
-      document.getElementById('totalSystemCost').textContent = totalSystemCost;
+      const formatNumber = (num) => new Intl.NumberFormat('it-IT').format(num);
+
+      document.getElementById('installablePower').textContent = formatNumber(installablePower);
+      document.getElementById('annualProduction').textContent = formatNumber(annualProduction);
+      document.getElementById('annualSavings').textContent = formatNumber(annualSavings);
+      document.getElementById('co2Savings').textContent = formatNumber(co2Savings);
+      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost);
       document.getElementById('roi').textContent = roi;
       document.getElementById('totalYears').textContent = investmentDuration;
-      document.getElementById('totalSavings').textContent = totalSavings;
-      document.getElementById('environmentalBenefit').textContent = environmentalBenefit;
+      document.getElementById('totalSavings').textContent = formatNumber(totalSavings);
+      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit);
     }
   </script>
 </body>
 </html>
-
