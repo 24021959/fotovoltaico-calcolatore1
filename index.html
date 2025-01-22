@@ -29,16 +29,24 @@
       margin: 10px 0;
       color: #ffffff;
     }
-    input, select, button {
-      width: 100%;
+    input, select {
+      width: calc(100% - 40px); /* Margini simmetrici */
       padding: 10px;
-      margin: 10px 0;
+      margin: 10px 20px; /* Margine simmetrico a destra e sinistra */
       border: 1px solid #ddd;
       border-radius: 5px;
+      background: #fff;
+      color: #000;
     }
     button {
+      display: block;
+      width: calc(100% - 40px); /* Margini simmetrici */
+      padding: 10px;
+      margin: 20px auto;
       background: #2c3e50;
       color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
     button:hover {
@@ -53,7 +61,7 @@
       margin-top: 30px;
     }
     .call-to-action a {
-      color: #ffffff;
+      color: #00ff00; /* Evidenziazione verde per il link */
       text-decoration: none;
       font-weight: bold;
     }
@@ -67,7 +75,7 @@
       margin: 0;
     }
     .highlight {
-      color: #00ff00; /* Colore evidenziato */
+      color: #00ff00;
       font-weight: bold;
     }
   </style>
@@ -129,7 +137,8 @@
         Compilando i tuoi dati, puoi ricevere una <span class="highlight">consulenza personalizzata gratuita</span> per scegliere l’impianto fotovoltaico perfetto per le tue esigenze.
       </p>
       <p>
-        <a href="mailto:info@greenideaenergia.it">Scrivici subito</a> o chiamaci al <strong>+39 333 532 3035</strong>.
+        <a href="mailto:info@greenideaenergia.it">Scrivici subito</a>
+        o chiamaci al <strong>+39 333 532 3035</strong>.
       </p>
     </div>
   </div>
