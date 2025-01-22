@@ -95,20 +95,6 @@
       color: #00ff00;
       font-weight: bold;
     }
-
-    /* Media Query per schermi più grandi */
-    @media (min-width: 768px) {
-      .container {
-        padding: 30px;
-      }
-      h2, h3 {
-        margin-left: 5%;
-      }
-      input, select, button, .results, .call-to-action {
-        margin-left: 5%;
-        width: 90%; /* Più ampio su desktop */
-      }
-    }
   </style>
 </head>
 <body>
@@ -161,7 +147,7 @@
       <p>Costo totale impianto: <span id="totalSystemCost">0</span> €</p>
       <p>Ritorno sull’investimento: <span id="roi">0</span> anni</p>
       <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
-      <p>Beneficio ambientale: <span id="environmentalBenefit">0</span> alberi equivalenti piantati</p>
+      <p><span id="environmentalBenefit">Alberi equivalenti piantati: 0</span></p>
     </div>
 
     <div class="call-to-action">
@@ -224,9 +210,8 @@
       document.getElementById('roi').textContent = roi + " anni";
       document.getElementById('totalYears').textContent = investmentDuration + " anni";
       document.getElementById('totalSavings').textContent = formatNumber(totalSavings) + " €";
-      document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit) + " alberi equivalenti piantati";
+      document.getElementById('environmentalBenefit').textContent = `Alberi equivalenti piantati: ${formatNumber(environmentalBenefit)}`;
     }
   </script>
 </body>
 </html>
-
