@@ -108,7 +108,7 @@
 <body>
   <!-- Sezione Logo -->
   <div class="header">
-   <img src="logo%20greenidea1.png" alt="Green Idea Logo">
+    <img src="logogreenidea1.png" alt="Green Idea Logo">
   </div>
 
   <!-- Contenuto principale -->
@@ -156,11 +156,11 @@
       <h3>Risultati:</h3>
       <p>Potenza installabile: <span id="installablePower">0</span> kWp</p>
       <p>Produzione annua stimata: <span id="annualProduction">0</span> kWh</p>
-      <p>Risparmio economico annuo: <span id="annualSavings">0</span> €</p>
+      <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
       <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span> kg</p>
-      <p>Costo totale impianto: <span id="totalSystemCost">0</span> €</p>
+      <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
       <p>Ritorno sull’investimento: <span id="roi">0</span> anni</p>
-      <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
+      <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span></p>
       <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
     </div>
 
@@ -214,18 +214,22 @@
       const co2Savings = Math.floor(annualProduction * 0.4);
       const environmentalBenefit = Math.floor(co2Savings / 21);
 
-      const formatNumber = (num) => new Intl.NumberFormat('it-IT').format(num);
+      const formatNumber = (num, isCurrency = false) => {
+        const formatted = new Intl.NumberFormat('it-IT').format(num);
+        return isCurrency ? formatted + " €" : formatted;
+      };
 
       document.getElementById('installablePower').textContent = formatNumber(installablePower);
       document.getElementById('annualProduction').textContent = formatNumber(annualProduction);
-      document.getElementById('annualSavings').textContent = formatNumber(annualSavings) + " €";
+      document.getElementById('annualSavings').textContent = formatNumber(annualSavings, true);
       document.getElementById('co2Savings').textContent = formatNumber(co2Savings) + " kg";
-      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost) + " €";
+      document.getElementById('totalSystemCost').textContent = formatNumber(totalSystemCost, true);
       document.getElementById('roi').textContent = roi + " anni";
       document.getElementById('totalYears').textContent = investmentDuration + " anni";
-      document.getElementById('totalSavings').textContent = formatNumber(totalSavings) + " €";
+      document.getElementById('totalSavings').textContent = formatNumber(totalSavings, true);
       document.getElementById('environmentalBenefit').textContent = formatNumber(environmentalBenefit);
     }
   </script>
 </body>
 </html>
+
