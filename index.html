@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calcolatore Risparmio Fotovoltaico</title>
   <style>
-    
-  .highlightYellow {
-    color: yellow;
-    font-weight: bold;
-  }
+    .highlightYellow {
+      color: yellow;
+      font-weight: bold;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -178,8 +177,10 @@
       <p>Risparmio economico annuo: <span id="annualSavings">0</span></p>
       <p>Costo totale impianto: <span id="totalSystemCost">0</span></p>
       <p>Resa annua sull'investimento: <span id="annualYield">0</span></p>
-     <p class="highlightYellow">Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
-     <p class="highlightYellow">Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
+      <!-- Aggiunto il dato per gli anni di ammortamento -->
+      <p class="highlightYellow">Anni di ammortamento dell'impianto: <span id="amortizationYears">0</span></p>
+      <p class="highlightYellow">Risparmio totale in 10 anni: <span id="totalSavings10">0</span></p>
+      <p class="highlightYellow">Risparmio totale in 25 anni: <span id="totalSavings25">0</span></p>
       <h3>Risparmio ambientale:</h3>
       <p>Emissioni di CO₂ evitate annue: <span id="co2Savings">0</span></p>
       <p>Alberi equivalenti piantati: <span id="environmentalBenefit">0</span></p>
@@ -245,7 +246,10 @@
       let totalSavings10 = annualSavings * 10;
       let totalSavings25 = annualSavings * 25;
 
-      // 7. Risparmio ambientale: ipotizziamo 0.5 kg di CO₂ evitate per ogni kWh prodotto
+      // 7. Calcolo degli anni di ammortamento dell'impianto
+      let amortizationYears = annualSavings > 0 ? totalSystemCost / annualSavings : 0;
+
+      // 8. Risparmio ambientale: ipotizziamo 0.5 kg di CO₂ evitate per ogni kWh prodotto
       let co2Savings = annualProduction * 0.5; // kg di CO₂
       // Equivalenza: 1 albero assorbe circa 20 kg di CO₂ all'anno
       let environmentalBenefit = co2Savings / 20;
@@ -256,6 +260,7 @@
       document.getElementById("annualSavings").innerText = formatNumber(annualSavings) + " €";
       document.getElementById("totalSystemCost").innerText = formatNumber(totalSystemCost) + " €";
       document.getElementById("annualYield").innerText = formatNumber(annualYield) + " %";
+      document.getElementById("amortizationYears").innerText = formatNumber(amortizationYears);
       document.getElementById("totalSavings10").innerText = formatNumber(totalSavings10) + " €";
       document.getElementById("totalSavings25").innerText = formatNumber(totalSavings25) + " €";
       document.getElementById("co2Savings").innerText = formatNumber(co2Savings) + " kg";
@@ -264,3 +269,4 @@
   </script>
 </body>
 </html>
+
