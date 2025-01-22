@@ -4,20 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Risparmio Energetico Fotovoltaico</title>
+  <!-- Caricamento di una versione specifica di Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
   <style>
+    /* Sfondo principale #797979 */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #797979;
-      color: #fff;
+      background: #797979; /* Sfondo grigio */
+      color: #fff;         /* Testo bianco */
       line-height: 1.6;
     }
+    /* Container centrale */
     .container {
       max-width: 800px;
       margin: 20px auto;
       padding: 20px;
-      background: #5a5a5a;
+      background: #5a5a5a; /* Più scuro del body per contrasto */
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
@@ -28,15 +32,17 @@
       margin: 10px 0;
       color: #ffffff;
     }
+    /* Campi di input */
     input, select {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background: #fff;
-      color: #000;
+      background: #fff; /* Bianco */
+      color: #000;      /* Testo nero */
     }
+    /* Pulsante */
     button {
       width: 100%;
       padding: 10px;
@@ -50,6 +56,15 @@
     button:hover {
       background: #3c4e60;
     }
+    /* Contenitore del grafico */
+    .graph-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    canvas {
+      background: #fff; /* Sfondo bianco del grafico (opzionale) */
+    }
+    /* Call to Action in fondo */
     .call-to-action {
       text-align: center;
       padding: 20px;
@@ -63,6 +78,7 @@
       text-decoration: none;
       font-weight: bold;
     }
+    /* Footer */
     footer {
       text-align: center;
       padding: 15px;
@@ -78,7 +94,11 @@
 <body>
   <div class="container">
     <h2>Calcola il Risparmio Energetico del Tuo Impianto Fotovoltaico</h2>
-    <p>Scopri quanto puoi risparmiare installando un impianto fotovoltaico. Usa il nostro calcolatore per stimare il tuo risparmio economico, ambientale e il ritorno sull'investimento.</p>
+    <p>
+      Scopri quanto puoi risparmiare installando un impianto fotovoltaico. Usa il
+      nostro calcolatore per stimare il tuo risparmio economico, ambientale e il
+      ritorno sull'investimento.
+    </p>
 
     <div class="calculator">
       <h3>Inserisci i tuoi dati</h3>
@@ -120,10 +140,22 @@
       <p>Risparmio totale in <span id="totalYears">0</span> anni: <span id="totalSavings">0</span> €</p>
     </div>
 
+    <div class="graph-container">
+      <h3>Grafico del Risparmio Cumulativo</h3>
+      <canvas id="savingsChart" width="400" height="200"></canvas>
+    </div>
+
     <div class="call-to-action">
       <h3>Vuoi saperne di più?</h3>
-      <p>Contattaci per una consulenza personalizzata. Insieme possiamo valutare il miglior impianto fotovoltaico per le tue esigenze.</p>
-      <p>Scrivici subito o chiamaci al <strong>+39 3335323035</strong>.</p>
+      <p>
+        Contattaci per una consulenza personalizzata. Insieme possiamo valutare il
+        miglior impianto fotovoltaico per le tue esigenze.
+      </p>
+      <!-- Dati di contatto aggiornati -->
+      <p>
+        <a href="mailto:info@greenideaenergia.it">Scrivici subito</a>
+        o chiamaci al <strong>+39 333 532 3035</strong>.
+      </p>
     </div>
   </div>
 
@@ -132,6 +164,8 @@
   </footer>
 
   <script>
+    let savingsChart; // Variabile globale per il grafico
+
     function calculate() {
       const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
       const annualCost = parseFloat(document.getElementById('annualCost').value);
@@ -141,6 +175,7 @@
       const energyCost = parseFloat(document.getElementById('energyCost').value);
       const investmentDuration = parseFloat(document.getElementById('investmentDuration').value);
 
+      // Controllo su alcuni valori indispensabili
       if (isNaN(annualConsumption) || isNaN(annualCost) || isNaN(roofArea)) {
         alert("Compila almeno Consumo annuale, Spesa annuale e Superficie tetto!");
         return;
@@ -155,7 +190,7 @@
       // Autoconsumo
       const autoconsumption = Math.floor(annualProduction * efficiency);
 
-      // Risparmio annuo
+      // Risparmio economico annuo
       const annualSavings = Math.floor(autoconsumption * energyCost);
 
       // Costo impianto
@@ -172,12 +207,13 @@
       // ROI
       const roi = annualSavings > 0 ? Math.floor(totalSystemCost / annualSavings) : 0;
 
-      // Risparmio totale
+      // Risparmio totale in X anni
       const totalSavings = annualSavings * investmentDuration;
 
-      // Emissioni CO2
+      // Emissioni di CO₂ evitate
       const co2Savings = Math.floor(annualProduction * 0.4);
 
+      // Aggiorno i risultati nella pagina
       document.getElementById('installablePower').textContent = installablePower;
       document.getElementById('annualProduction').textContent = annualProduction;
       document.getElementById('annualSavings').textContent = annualSavings;
@@ -186,10 +222,65 @@
       document.getElementById('roi').textContent = roi;
       document.getElementById('totalYears').textContent = investmentDuration;
       document.getElementById('totalSavings').textContent = totalSavings;
+
+      // Crea o aggiorna il grafico
+      updateChart(annualSavings, investmentDuration);
+    }
+
+    function updateChart(annualSavings, duration) {
+      const ctx = document.getElementById('savingsChart').getContext('2d');
+
+      // Preparazione dei dati per il grafico
+      const labels = [];
+      const data = [];
+      for (let i = 1; i <= duration; i++) {
+        labels.push('Anno ' + i);
+        data.push(annualSavings * i);
+      }
+
+      // Se esiste già un grafico, lo distruggiamo per ricrearlo
+      if (savingsChart) {
+        savingsChart.destroy();
+      }
+
+      // Creazione nuovo grafico
+      savingsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Risparmio Cumulativo (€)',
+              data: data,
+              borderColor: '#ffffff',
+              backgroundColor: 'transparent',
+              fill: false,
+              tension: 0.2,
+            },
+          ],
+        },
+        options: {
+          responsive: false, // Usa dimensioni fisse del canvas (400x200)
+          plugins: {
+            legend: {
+              labels: {
+                color: '#ffffff', // Testo legenda in bianco
+              },
+            },
+          },
+          scales: {
+            x: {
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.2)' },
+            },
+            y: {
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.2)' },
+            },
+          },
+        },
+      });
     }
   </script>
 </body>
 </html>
-
-
-
